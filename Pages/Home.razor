@@ -2,6 +2,29 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="main-container">
 
-Welcome to your new app.
+    <div class="minefield">
+
+        @for (int i = 0; i < 12; i++) {
+
+            <div class="mineline">
+
+                @for (int j = 0; j < 12; j++) {
+
+                    <div class="minesquare">
+                        
+                        <div class="clickarea">
+                            
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+        }
+
+    </div>
+
+</div>

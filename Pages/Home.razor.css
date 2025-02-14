@@ -1,0 +1,43 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.minefield {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+}
+
+.mineline {
+    display: flex;
+    flex-direction: row;
+}
+
+.minesquare {
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    background: linear-gradient(135deg, #eee, #222);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.clickarea {
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, #aaa, #888);
+}
+
+.minesquare:hover {
+    background: linear-gradient(135deg, #ccc, #000);
+
+}
+
+.minesquare:hover .clickarea {
+    background: linear-gradient(135deg, #888, #666);
+}
