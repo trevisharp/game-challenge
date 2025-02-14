@@ -6,25 +6,44 @@
 
     <div class="minefield">
 
-        @for (int i = 0; i < 12; i++) {
-
+        @for (int j = 0; j < 12; j++)
+        {
             <div class="mineline">
 
-                @for (int j = 0; j < 12; j++) {
-
+            @for (int i = 0; i < 12; i++)
+            {
+                @if (!game[i, j].IsOpen)
+                {
                     <div class="minesquare">
-                        
-                        <div class="clickarea">
-                            
-                        </div>
-
+                        <div class="clickarea"></div>
                     </div>
-
                 }
-
+                else if (game[i, j].HasBomb)
+                {
+                    <div class="minesquare">
+                    </div>
+                }
+                else
+                {
+                    <div class="minesquare">
+                        @game[i, j].Number
+                    </div>
+                }
+            }
             </div>
         }
 
     </div>
 
 </div>
+
+@code
+{
+    Game game = new Game();
+
+    protected override void OnInitialized()
+    {
+        game.InitGame();
+    }
+
+}
