@@ -6,6 +6,10 @@ public class Game
     const int openCode = 0b100_0000;
 
     readonly int[] board = new int[length * length];
+    
+    public bool GameOver { get; set; } = false;
+
+    public bool Win { get; set; } = false;
 
     public FieldValue this[int index]
     {
@@ -21,6 +25,8 @@ public class Game
 
     public void InitGame(int bombsCount = length)
     {
+        Win = false;
+        GameOver = false;
         var bombs = FillList(bombsCount, board.Length);
         InitBoardValues(bombs);
         RandomSafeClick();
@@ -28,23 +34,12 @@ public class Game
 
     public void Open(int i, int j)
     {
-        var field = this[i, j];
-        if (field.IsOpen)
+        if (GameOver)
             return;
         
-        this[i, j] = field with { IsOpen = true };
-        
-        if (field.HasBomb)
-            return;
-        
-        if (field.Number > 0)
-            return;
+        OpenTile(i, j);
 
-        int x0 = int.Max(i - 1, 0), xf = int.Min(i + 1, length - 1);
-        int y0 = int.Max(j - 1, 0), yf = int.Min(j + 1, length - 1);
-        for (int x = x0; x <= xf; x++)
-            for (int y = y0; y <= yf; y++)
-                Open(x, y);
+        ValidateWin();
     }
 
     void RandomSafeClick()
@@ -72,6 +67,45 @@ public class Game
                 );
             }
         }
+    }
+
+    void OpenTile(int i, int j)
+    {
+        var field = this[i, j];
+        if (field.IsOpen)
+            return;
+        
+        this[i, j] = field with { IsOpen = true };
+        
+        if (field.HasBomb)
+        {
+            GameOver = true;
+            return;
+        }
+        
+        if (field.Number > 0)
+            return;
+
+        int x0 = int.Max(i - 1, 0), xf = int.Min(i + 1, length - 1);
+        int y0 = int.Max(j - 1, 0), yf = int.Min(j + 1, length - 1);
+        for (int x = x0; x <= xf; x++)
+            for (int y = y0; y <= yf; y++)
+                OpenTile(x, y);
+    }
+
+    void ValidateWin()
+    {
+        for (int i = 0; i < board.Length; i++)
+        {
+            var field = this[i];
+            if (field.IsOpen ^ field.HasBomb)
+                continue;
+            
+            return;
+        }
+
+        GameOver = true;
+        Win = true;
     }
 
     static int DiscoverValue(int value, List<int> bombs)

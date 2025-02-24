@@ -33,10 +33,15 @@
     border: 2px solid black;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 40px;
-    background-color: #333;
+    background-color: #bbb;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.img-icon {
+    width: 40px;
+    height: 40px;
 }
 
 .clickarea {
