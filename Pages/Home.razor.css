@@ -5,6 +5,12 @@
     height: 80vh;
 }
 
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .minefield {
     display: flex;
     flex-direction: column;

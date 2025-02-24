@@ -1,16 +1,20 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
 
-@if (game.GameOver && game.Win)
-{
-    <h1>Game Over! You wins!</h1>
-}
-
-@if (game.GameOver && !game.Win)
-{
-    <h1>Game Over! You loses!</h1>
-}
+<div class="title-container">
+    @if (game.GameOver && game.Win)
+    {
+        <h1>Game Over! You wins!</h1>
+    }
+    else if (game.GameOver && !game.Win)
+    {
+        <h1>Game Over! You loses!</h1>
+    }
+    else
+    {
+        <h1>Game started!</h1>
+    }
+</div>
 
 <div class="main-container">
 
