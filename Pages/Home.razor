@@ -10,26 +10,34 @@
         {
             <div class="mineline">
 
-            @for (int i = 0; i < 12; i++)
-            {
-                @if (!game[i, j].IsOpen)
+                @for (int i = 0; i < 12; i++)
                 {
-                    <div class="minesquare">
-                        <div class="clickarea"></div>
-                    </div>
+                    int x = i;
+                    int y = j;
+                    
+                    @if (!game[i, j].IsOpen)
+                    {
+                        <div class="minesquare">
+                            <div class="clickarea" @onclick="() => Open(x, y)"></div>
+                        </div>
+                    }
+                    else if (game[i, j].HasBomb)
+                    {
+                        <div class="minesquare">
+                        </div>
+                    }
+                    else if (game[i, j].Number > 0)
+                    {
+                        <div class="number" style=@($"color: {GetColor(game[i, j].Number)}")>
+                            @game[i, j].Number
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="number"/>
+                    }
                 }
-                else if (game[i, j].HasBomb)
-                {
-                    <div class="minesquare">
-                    </div>
-                }
-                else
-                {
-                    <div class="minesquare">
-                        @game[i, j].Number
-                    </div>
-                }
-            }
+
             </div>
         }
 
@@ -46,4 +54,20 @@
         game.InitGame();
     }
 
+    void Open(int i, int j)
+        => game.Open(i, j);
+
+    string GetColor(int number)
+        => number switch
+        {
+            1 => "#00F",
+            2 => "#080",
+            3 => "#F00",
+            4 => "#008",
+            5 => "#800",
+            6 => "#088",
+            7 => "#000",
+            8 => "#888",
+            _ => "#000"
+        };
 }

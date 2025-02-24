@@ -28,7 +28,23 @@ public class Game
 
     public void Open(int i, int j)
     {
-        this[i, j] = this[i, j] with { IsOpen = true };
+        var field = this[i, j];
+        if (field.IsOpen)
+            return;
+        
+        this[i, j] = field with { IsOpen = true };
+        
+        if (field.HasBomb)
+            return;
+        
+        if (field.Number > 0)
+            return;
+
+        int x0 = int.Max(i - 1, 0), xf = int.Min(i + 1, length - 1);
+        int y0 = int.Max(j - 1, 0), yf = int.Min(j + 1, length - 1);
+        for (int x = x0; x <= xf; x++)
+            for (int y = y0; y <= yf; y++)
+                Open(x, y);
     }
 
     void RandomSafeClick()
