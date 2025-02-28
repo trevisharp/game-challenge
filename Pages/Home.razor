@@ -60,9 +60,16 @@
 
 </div>
 
+<div class="buttons">
+    <button @onclick="() => IA()">Ativar IA</button>
+    <button @onclick="() => IAToEnd()">Ativar IA até o fim</button>
+</div>
+
 @code
 {
     Game game = new Game();
+    private System.Timers.Timer _timer;
+
 
     [SupplyParameterFromQuery]
     private int? Bombs { get; set; }
@@ -70,6 +77,26 @@
     protected override void OnInitialized()
     {
         game.InitGame(Bombs ?? 12);
+    }
+
+    void IA()
+    {
+        MineSweeperApp.IA(game);
+        StateHasChanged();
+    }
+
+    void IAToEnd()
+    {
+        _timer = new();
+        _timer.Interval = 250;
+        _timer.Elapsed += (s, e) =>
+        {
+            if (!game.GameOver)
+                IA();
+            else _timer.Stop();
+        };
+        _timer.Start();
+        _timer.Enabled = true;
     }
 
     void Open(int i, int j)

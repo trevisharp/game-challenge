@@ -1,4 +1,4 @@
-public class Game
+public class Game : IGameData
 {
     const int length = 12;
     const int bombCode = 0b1_0000;
@@ -10,6 +10,8 @@ public class Game
     public bool GameOver { get; set; } = false;
 
     public bool Win { get; set; } = false;
+
+    public int Size => length;
 
     public FieldValue this[int index]
     {
@@ -40,6 +42,21 @@ public class Game
         OpenTile(i, j);
 
         ValidateWin();
+    }
+
+    public int GetNumber(int i, int j)
+    {
+        if (i is < 0 or >= length)
+            throw new Exception($"A coluna escolhida foi {i}, mas os únicos válidos são de 0 a {length}");
+            
+        if (j is < 0 or >= length)
+            throw new Exception($"A linha escolhida foi {j}, mas os únicos válidos são de 0 a {length}");
+        
+        var field = this[i, j];
+        if (field.IsOpen)
+            return field.Number;
+        
+        return -1;
     }
 
     void RandomSafeClick()
@@ -79,7 +96,7 @@ public class Game
         
         if (field.HasBomb)
         {
-            GameOver = true;
+            LoseGame();
             return;
         }
         
@@ -106,6 +123,25 @@ public class Game
 
         GameOver = true;
         Win = true;
+    }
+
+    void LoseGame()
+    {
+        OpenAllBombs();
+        GameOver = true;
+        Win = false;
+    }
+
+    void OpenAllBombs()
+    {
+        for (int i = 0; i < board.Length; i++)
+        {
+            var field = this[i];
+            if (!field.HasBomb)
+                continue;
+            
+            this[i] = field with { IsOpen = true };
+        }
     }
 
     static int DiscoverValue(int value, List<int> bombs)

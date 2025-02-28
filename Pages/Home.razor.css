@@ -5,6 +5,13 @@
     height: 80vh;
 }
 
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
 .title-container {
     display: flex;
     justify-content: center;

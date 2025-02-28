@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using game_challenge;
+void ia(IGameData game)
+{
+    var i = Random.Shared.Next(12);
+    var j = Random.Shared.Next(12);
+    game.Open(i, j);
+}
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
-
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-await builder.Build().RunAsync();
+await MineSweeperApp.Run(args, ia);
