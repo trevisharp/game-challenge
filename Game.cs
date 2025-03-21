@@ -144,19 +144,43 @@ public class Game : IGameData
         }
     }
 
-    static int DiscoverValue(int value, List<int> bombs)
+    static int DiscoverValue(int pos, List<int> bombs)
     {
         int count = 0;
 
-        int[] deltas = [
-            -length - 1, -length, -length + 1,
-            -1, +1,
-            length - 1, length, length + 1
-        ];
+        List<int> deltas = [];
 
+        if (pos % length != 0)
+        {
+            if (pos / length != 0)
+                deltas.Add(-length - 1);
+            
+            deltas.Add(-1);
+            
+            if (pos / length != length - 1)
+                deltas.Add(length - 1);
+        }
+
+        if (pos % length != length - 1)
+        {
+            if (pos / length != 0)
+                deltas.Add(-length + 1);
+            
+            deltas.Add(1);
+            
+            if (pos / length != length - 1)
+                deltas.Add(length + 1);
+        }
+
+        if (pos / length != 0)
+            deltas.Add(-length);
+        
+        if (pos / length != length - 1)
+            deltas.Add(length);
+        
         foreach (var delta in deltas)
         {
-            if (bombs.Contains(value + delta))
+            if (bombs.Contains(pos + delta))
                 count++;
         }
 
