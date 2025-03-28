@@ -13,6 +13,9 @@ public class Game : IGameData
 
     public int Size => length;
 
+    private int bombsCount;
+    public int Bombs => bombsCount;
+
     public FieldValue this[int index]
     {
         get => ConvertToField(board[index]);
@@ -29,6 +32,7 @@ public class Game : IGameData
     {
         Win = false;
         GameOver = false;
+        this.bombsCount = bombsCount;
         var bombs = FillList(bombsCount, board.Length);
         InitBoardValues(bombs);
         RandomSafeClick();
